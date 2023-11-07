@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [dogs, setDogs] = useState([]);
+
+  const fetchDogs = async () => {
+    const newDogs = [];
+    while (newDogs.length < 8) {
+      const response = await fetch('https://random.dog/woof.json');
+      const data = await response.json();
+      if (data.url.endsWith('.jpg') || data.url.endsWith('.png') || data.url.endsWith('.gif') || data.url.endsWith('.mp4')) {
+        newDogs.push(data.url);
+      }
+    }
+    setDogs(newDogs);
+  };
+
+  useEffect(() => {
+    fetchDogs();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Random Dogs</h1>
+        <button onClick={fetchDogs}>Fetch New Dogs</button>
+        <div className="dog-gallery">
+          {dogs.map((dogUrl, index) => (
+            <div key={index} className="dog-item">
+              {dogUrl.endsWith('.mp4') ? (
+                <video controls src={dogUrl} />
+              ) : (
+                <img src={dogUrl} alt="Random Dog" />
+              )}
+            </div>
+          ))}
+        </div>
       </header>
     </div>
   );
-}
+};
 
 export default App;
