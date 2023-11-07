@@ -3,12 +3,13 @@ import './App.css';
 
 const App = () => {
   const [dogs, setDogs] = useState([]);
-
   const fetchDogs = async () => {
     const newDogs = [];
+    // present 8 results on screen
     while (newDogs.length < 8) {
       const response = await fetch('https://random.dog/woof.json');
       const data = await response.json();
+      //common media formats
       if (data.url.endsWith('.jpg') || data.url.endsWith('.png') || data.url.endsWith('.gif') || data.url.endsWith('.mp4')) {
         newDogs.push(data.url);
       }
@@ -24,6 +25,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <h1>Random Dogs</h1>
+        <hr />
         <button onClick={fetchDogs}>Fetch New Dogs</button>
         <div className="dog-gallery">
           {dogs.map((dogUrl, index) => (
