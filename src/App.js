@@ -31,9 +31,9 @@ const App = () => {
           {dogs.map((dogUrl, index) => (
             <div key={index} className="dog-item">
               {dogUrl.endsWith('.mp4') ? (
-                <video controls src={dogUrl} />
+                <video testid="dog-media" controls src={dogUrl} />
               ) : (
-                <img src={dogUrl} alt="Random Dog" />
+                <img testid="dog-media" src={dogUrl} alt="Random Dog" />
               )}
             </div>
           ))}
